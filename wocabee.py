@@ -38,8 +38,8 @@ class wocabee:
         #except Exception as e:
         #    traceback.print_exception(e)
         options = Options()
-        options.headless = True
-        options.add_argument("--headless")
+        #options.headless = True
+        #options.add_argument("--headless")
         self.driver = webdriver.Firefox(options=options)
     
         self.driver.get(self.url)
@@ -176,8 +176,8 @@ class wocabee:
             place = student.find_element(By.CLASS_NAME,"place").text
             name = student.find_element(By.CLASS_NAME,"name").text
             online = "status-online" in student.find_element(By.CLASS_NAME,"status-icon").get_attribute("class")      
-            points = student.find_elements(By.TAG_NAME,"td")[2].text
-            packages = student.find_elements(By.TAG_NAME,"td")[3] .text
+            points = student.find_elements(By.TAG_NAME,"td")[3].text
+            packages = student.find_elements(By.TAG_NAME,"td")[4] .text
             leaderboard.append({"place":place,"name":name,"points":points,"online":online,"packages":packages})
         return leaderboard
     #packages
@@ -186,7 +186,10 @@ class wocabee:
         prac = int(prac)
         packages = []
         if self.exists_element(self.driver,By.ID,"showMorePackagesBtn"):
-            self.get_element(By.ID,"showMorePackagesBtn").click()
+            try:
+                self.get_element(By.ID,"showMorePackagesBtn").click()
+            except:
+                print("failed to click more packages :(")
         elements = self.get_elements(By.CLASS_NAME, "pTableRow")
         if not elements:
             return packages
@@ -278,8 +281,9 @@ class wocabee:
     # learning
     def learn(self,echo = False):
         while self.exists_element(self.driver,By.ID,"intro"):
-            word = self.wait_for_element(5,By.ID,"word").text
-            translation = self.get_element_text(By.ID,"translation")
+            time.sleep(2) # kurva čakám na pičoviny zasa ja to možem jebať
+            word = self.wait_for_element(10,By.ID,"word").text
+            translation = self.wait_for_element(5,By.ID,"translation").text
             if self.exists_element(self.driver,By.ID,"pictureThumbnail"):
                 # picture
                 picture = self.get_element(By.ID,"pictureThumbnail")

@@ -33,8 +33,13 @@ def leaderboard():
     leaderboard = woca.get_leaderboard()
     #print(f"{woca.debug} {leaderboard}")
     first_place = leaderboard[0]
+    first_place_points = 0    
+    try:
+        first_place_points = int(first_place["points"])
+    except:
+        print(first_place)
     for x in leaderboard:
-        end+=(f"#{x['place']:<2}: {x['name']:<20} ({'🟢' if x['online'] else '🔴'}) {x['points']:<5} (diff to #1 = {int(first_place['points'])-int(x['points']):>5}) {x['packages']}\n")
+        end+=(f"#{x['place']:<2}: {x['name']:<20} ({'🟢' if x['online'] else '🔴'}) {x['points']:<5} (diff to #1 = {int(first_place_points)-int(x['points']):>5}) {x['packages']}\n")
     print(end)
     woca.quit()
 
