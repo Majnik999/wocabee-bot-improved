@@ -5,9 +5,26 @@ import threading
 from time import sleep
 from selenium.webdriver.common.by import By
 import getpass
-users = [
-    """(username, password),..."""
-]
+import os
+import json
+
+def load_credentials():
+    if os.path.exists("credentials.json"):
+        with open("credentials.json", "r") as f:
+            creds = json.load(f)
+            return [(u, p) for u, p in creds.items()]
+    return []
+
+def save_credentials(username, password):
+    all_creds = {}
+    if os.path.exists("credentials.json"):
+        with open("credentials.json", "r") as f:
+            all_creds = json.load(f)
+    all_creds[username] = password
+    with open("credentials.json", "w") as f:
+        json.dump(all_creds, f)
+
+users = load_credentials()
 def vsetky_baliky(woca):
     while woca.get_packages(woca.DOPACKAGE):
         woca.pick_package(0,woca.get_packages(woca.DOPACKAGE))
@@ -23,7 +40,7 @@ def vsetky_baliky(woca):
             woca.get_element(By.ID,"continueBtn").click()
         try:
             woca.wait_for_element(5,By.ID,"backBtn")
-            if woca.get_element_text(By.ID,"backBtn") == "Uložiť a odísť":
+            if woca.get_element_text(By.ID,"backBtn") in ["Uložiť a odísť", "Save and exit", "Save and leave"]:
                 woca.get_element(By.ID,"backBtn").click()
         except:
             exit(0)
@@ -43,6 +60,7 @@ def do_wocabee(user):
 if not users:
     username = input("username:")
     password = getpass.getpass("password:")
+    save_credentials(username, password)
     users.append((username,password))
 for x in users:
     print(x[0]) # display username
