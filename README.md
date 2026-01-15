@@ -77,7 +77,7 @@ The bot is controlled via command-line arguments. The main entry point is `main.
 | `--leaderboard` | Show the current class leaderboard. |
 | `--hide` | Run the browser in headless mode. |
 | `--account <ID>` | Use a saved account from `credentials.json` or login with a new one. |
-| `--auto` | Run in automatic mode. |
+| `--auto` | Run in automatic mode. **[BETA]** |
 
 ## Configuration
 
