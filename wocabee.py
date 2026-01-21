@@ -61,7 +61,7 @@ class wocabee:
             self.logger.addHandler(handler)
             self.logger.setLevel(logging.INFO)
         self.speed_login = 0.5
-        self.speed_package = 0.5
+        self.speed_package = 0.2
         self.speed_learn = 0.33
         
         self.PRACTICE = 0
